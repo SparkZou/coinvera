@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* ---- Dark (default) ---- */
+  :root, .dark {
+    --bg: 11 13 17;
+    --surface: 18 21 28;
+    --elevated: 26 30 39;
+    --line: 39 45 58;
+    --ink: 233 237 244;
+    --muted: 143 154 173;
+    --faint: 95 105 122;
+    --brand: 240 185 11;      /* exchange gold */
+    --brand-ink: 20 22 28;
+    --up: 46 189 133;
+    --down: 246 70 93;
+    --warn: 240 165 60;
+    --info: 84 148 255;
+  }
+
+  /* ---- Light ---- */
+  .light {
+    --bg: 250 251 252;
+    --surface: 255 255 255;
+    --elevated: 244 246 249;
+    --line: 226 231 238;
+    --ink: 19 23 32;
+    --muted: 95 105 122;
+    --faint: 143 154 173;
+    --brand: 201 148 0;
+    --brand-ink: 255 255 255;
+    --up: 14 158 106;
+    --down: 217 48 71;
+    --warn: 199 126 20;
+    --info: 37 110 220;
+  }
+
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    @apply bg-bg text-ink font-sans antialiased;
+    font-feature-settings: 'tnum' 1, 'cv05' 1;
+  }
+  /* Tabular numerals everywhere numbers matter. */
+  .tnum { font-variant-numeric: tabular-nums; }
+}
+
+@layer components {
+  .card { @apply bg-surface border border-line rounded-xl; }
+  .hairline { @apply border-line; }
+
+  /* Thin scrollbars that match the theme */
+  .scroll-thin { scrollbar-width: thin; scrollbar-color: rgb(var(--line)) transparent; }
+  .scroll-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+  .scroll-thin::-webkit-scrollbar-track { background: transparent; }
+  .scroll-thin::-webkit-scrollbar-thumb { background: rgb(var(--line)); border-radius: 3px; }
+  .scroll-thin::-webkit-scrollbar-thumb:hover { background: rgb(var(--faint)); }
+
+  /* Orderbook depth bar */
+  .depth-bar { @apply absolute inset-y-0 right-0 pointer-events-none transition-[width] duration-300; }
+}
+
+/* Hide scrollbar but keep scrolling (mobile tab strips) */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

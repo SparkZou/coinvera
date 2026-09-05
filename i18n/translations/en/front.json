@@ -1,0 +1,11 @@
+{
+  "我的资产": "My Assets",
+  "密码 · 2FA · 设备 · 防钓鱼码": "Password · 2FA · Devices · Anti-phishing code",
+  "KYC 三级认证 · 人脸识别": "Three-tier KYC · Face recognition",
+  "密钥 · 权限 · IP 白名单": "Keys · Permissions · IP allowlist",
+  "登录与安全操作记录": "Login and security activity log",
+  "邀请码 · 邀请链接 · 奖励": "Invite code · Invite link · Rewards",
+  "返佣 · 分佣 · 直客返佣": "Rebate · Commission split · Direct-client rebate",
+  "币币 · 合约 · 法币账户": "Spot · Futures · Fiat accounts",
+  "当前委托 · 历史 · 成交": "Open orders · History · Trades"
+}

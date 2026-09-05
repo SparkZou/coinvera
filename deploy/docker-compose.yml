@@ -1,0 +1,12 @@
+# Coinvera demo — static SPA served by nginx, published on 127.0.0.1:8090.
+# Host nginx terminates TLS for coinvera.aicloud.co.nz and reverse-proxies here.
+services:
+  coinvera-web:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    image: coinvera-web:latest
+    container_name: coinvera-web
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8090:80"
