@@ -35,7 +35,13 @@ export function PrefsProvider({ children }: { children: React.ReactNode }) {
     try { localStorage.setItem('theme', theme) } catch { /* ignore */ }
   }, [theme])
 
-  const setLang = (l: Lang) => { setI18nLang(l); setLangState(l) }
+  // Language change reloads the page so module-scope data (wrapped at import)
+  // re-evaluates in the new language along with the render-time strings.
+  const setLang = (l: Lang) => {
+    setI18nLang(l)
+    setLangState(l)
+    try { window.location.reload() } catch { /* SSR */ }
+  }
 
   return (
     <PrefsCtx.Provider

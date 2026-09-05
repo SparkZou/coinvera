@@ -22,7 +22,11 @@ function i18n(): Plugin {
       const rel = path.relative(__dirname, file).replace(/\\/g, '/')
       if (isExcluded(rel)) return null
       if (!/[一-鿿]/.test(code)) return null
-      const out = i18nTransform(code, file, null)
+      // Front-office data is fully translated, so also wrap its module-scope
+      // literals (data arrays). Admin bodies, admin mock data and the funcList
+      // registry keep render-time-only wrapping (their data stays as source).
+      const noModuleScope = /src\/(pages\/admin\/(g1|g2|g3|g4)|mock\/(admin|funcList))/.test(rel)
+      const out = i18nTransform(code, file, null, { moduleScope: !noModuleScope })
       if (!out.changed) return null
       return { code: out.code, map: null }
     },

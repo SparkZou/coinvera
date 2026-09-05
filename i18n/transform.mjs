@@ -49,9 +49,14 @@ function isTArg(path) {
  * @param {string} code  source
  * @param {string} id    file path (decides jsx/ts parser plugins)
  * @param {Set<string>} sink  collects every source string wrapped
+ * @param {{moduleScope?: boolean}} [opts]  also wrap module-scope literals
+ *        (data arrays). Requires a reload on language change so they
+ *        re-evaluate. Used for front-office files whose data is fully
+ *        translated; off for admin/mock-admin/funcList and for extraction.
  * @returns {{ code: string, changed: boolean }}
  */
-export function transform(code, id, sink) {
+export function transform(code, id, sink, opts = {}) {
+  const moduleScope = !!opts.moduleScope
   const isTsx = id.endsWith('.tsx') || id.endsWith('.jsx')
   const plugins = isTsx ? ['typescript', 'jsx'] : ['typescript']
 
@@ -84,7 +89,7 @@ export function transform(code, id, sink) {
 
     StringLiteral(path) {
       if (!hasCJK(path.node.value)) return
-      if (!path.getFunctionParent()) return          // module scope → skip
+      if (!moduleScope && !path.getFunctionParent()) return   // module scope → skip unless opted in
       if (isTArg(path)) return
       const p = path.parentPath
       if (p.isImportDeclaration() || p.isExportDeclaration()) return
@@ -121,7 +126,7 @@ export function transform(code, id, sink) {
 
     TemplateLiteral(path) {
       if (path.parentPath.isTaggedTemplateExpression()) return
-      if (!path.getFunctionParent()) return
+      if (!moduleScope && !path.getFunctionParent()) return
       if (isTArg(path)) return
       const quasis = path.node.quasis
       const exprs = path.node.expressions
