@@ -1,0 +1,19 @@
+# Coinvera demo on a host that already runs the shared Caddy reverse proxy.
+# The container joins shared-proxy-network and is reached by name (coinvera-web);
+# Caddy terminates TLS (auto Let's Encrypt) and reverse-proxies to it.
+# No host port is published — Caddy is the only ingress.
+services:
+  coinvera-web:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    image: coinvera-web:latest
+    container_name: coinvera-web
+    restart: unless-stopped
+    networks:
+      - shared-proxy-network
+
+networks:
+  shared-proxy-network:
+    external: true
+    name: shared-proxy-network

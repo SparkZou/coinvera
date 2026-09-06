@@ -1,0 +1,15 @@
+# Caddy site block for the Coinvera demo. Append to the shared Caddyfile and
+# reload:  docker compose exec caddy caddy reload --config /etc/caddy/Caddyfile
+# Caddy issues and renews the TLS certificate automatically (Let's Encrypt).
+coinvera.aicloud.co.nz {
+	encode zstd gzip
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Frame-Options "SAMEORIGIN"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+	}
+	handle {
+		reverse_proxy coinvera-web:80
+	}
+}
